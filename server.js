@@ -1,10 +1,29 @@
 const express  = require('express');
+const mongoose = require('mongoose');
+const requireDir = require('require-dir');
+const cors = require('cors');
+
+
+
 
 const app = express();
+app.use(express.json());
+app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send('Hello Budmol Digital2!!');
-})
+
+
+mongoose.connect('mongodb://localhost:27017/nodeapi', { useNewUrlParser: true}); 
+
+
+//Pega todos os models do diretório
+requireDir('./src/models');
+
+const Product = mongoose.model('Product');
+
+
+
+app.use('/api', require('./src/routes'));
+
 
 
 
